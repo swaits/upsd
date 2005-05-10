@@ -112,7 +112,7 @@ int readline()
 	ioctl(fd, TIOCMGET, &flags);
 
 	flagdump(flags);
-	
+
 	// nextstate = current line conditions
 	nextstate = U_OK;
 	if ( (flags & POWER_GOOD_BITS) != POWER_GOOD_BITS )
@@ -158,21 +158,21 @@ void term()
 int main(int argc,char** argv)
 {
 	// check parameters
-	if (argc < 2) 
+	if ( argc < 2 )
 	{
 		fprintf(stderr, "Usage: upsd <device>\n");
 		exit(1);
 	}
 
 	// open serial port
-	if ((fd = open(argv[1], O_RDONLY | O_NDELAY)) < 0) 
+	if ( (fd = open(argv[1], O_RDONLY | O_NDELAY)) < 0 )
 	{
 		fprintf(stderr, "upsd: %s: %s\n", argv[1], sys_errlist[errno]);
 		exit(1);
 	}
 
 	// become a daemon
-	switch (fork()) 
+	switch ( fork() )
 	{
 		case 0:		/* I am the child. */
 			setsid();
@@ -197,7 +197,7 @@ int main(int argc,char** argv)
 	// init line
 	init();
 
-	while(1)
+	while ( 1 )
 	{
 		static int count = 0;
 		static int killtime = 0;
