@@ -101,8 +101,8 @@ void flagdump(int flags)
 
 int readline()
 {
-	static int count = 0;
-	static int state = U_OK;
+	static int count         = 0;
+	static int state         = U_OK;
 	static int lastnextstate = U_OK;
 	int nextstate;
 
@@ -118,9 +118,13 @@ int readline()
 	if ( (flags & POWER_GOOD_BITS) != POWER_GOOD_BITS )
 	{
 		if ( (flags & BATT_GOOD_BITS) != BATT_GOOD_BITS )
+		{
 			nextstate = U_LOW;
+		}
 		else
+		{
 			nextstate = U_FAIL;
+		}
 	}
 
 	// count the time we've been in this new state
@@ -132,7 +136,9 @@ int readline()
 	{
 		// keep this from overflowing
 		if ( count <= DEBOUNCE_TIME )
+		{
 			count += POLL_INTERVAL;
+		}
 	}
 	lastnextstate = nextstate;
 
@@ -150,7 +156,9 @@ void term()
 	syslog(LOG_NOTICE,"caught signal.");
 	init();
 	if ( fd != -1 )
+	{
 		close(fd);
+	}
 	syslog(LOG_NOTICE,"terminated.");
 	exit(EXIT_SUCCESS);
 }
@@ -233,7 +241,9 @@ int main(int argc,char** argv)
 		{
 			// warn if we just got the signal!
 			if ( laststate != U_LOW )
+			{
 				lowmessage();
+			}
 
 			// set kill signal
 			if ( killtime == 0 )
@@ -288,6 +298,4 @@ int main(int argc,char** argv)
 		sleep(POLL_INTERVAL);
 	}
 }
-
-
 
