@@ -1,0 +1,11 @@
+image: alpine/edge
+secrets:
+  - 88cce185-d2ec-4573-9546-e33f36f79bbf
+sources:
+  - git+ssh://git@git.sr.ht/~swaits/upsd
+tasks:
+  - mirror-to-github: |
+      cd ~/upsd
+      ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      git remote add github git@github.com:swaits/upsd.git
+      git push --mirror github
